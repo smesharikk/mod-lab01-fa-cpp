@@ -1,3 +1,4 @@
+# Copyright 2024 Davit 
 #include "fun.h"
 #include <cctype>
 #include <cmath>
