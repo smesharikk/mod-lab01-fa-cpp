@@ -5,55 +5,64 @@
 
 // Реализация функции для задачи №1
 unsigned int faStr1(const char* str) {
-    unsigned int count = 0;
     bool in_word = false;
+    bool has_digit = false; // Флаг, указывающий на наличие цифр в слове
+    unsigned int count = 0;
+    unsigned int i = 0;
 
-    while (*str) {
-        if (std::isalpha(*str)) { // Проверяем, является ли текущий символ буквой
-            in_word = true; 
+    while (str[i]) {
+        if (str[i] != ' ' && !in_word) {
+            in_word = true;
+            has_digit = false; // Сбрасываем флаг наличия цифры при начале нового слова
+            count++; // Увеличиваем счетчик слов
         }
-        else if (std::isspace(*str) or *str == '\0') { // Проверяем, является ли текущий символ пробелом или концом строки
-            if (in_word) { 
-                in_word = false; 
+        else if (str[i] != ' ' && in_word) {
+            if (isdigit(str[i]) && !has_digit) {
+                has_digit = true; // Устанавливаем флаг наличия цифры
+                count--; 
             }
         }
-        else if (std::isdigit(*str)) { // Если текущий символ является цифрой
-            in_word = false; // Сбрасываем флаг слова
-            while (*str and !std::isspace(*str)) // Пропускаем все цифры в слове
-                str++;
-            continue;
+        else if (str[i] == ' ' && in_word) {
+            in_word = false; // Завершаем слово
         }
-        str++; 
+        i++; 
     }
 
     return count;
 }
 
-
 // Реализация функции для задачи №2
-unsigned int faStr2(const char* str) {
-    bool in_word = false; // Флаг находимся ли мы внутри слова
-    bool is_uppercase = false; // Флаг является ли текущее слово словом с заглавной буквы
-    int word_count = 0; // Счетчик слов, начинающихся с заглавной буквы и содержащих только строчные буквы
-    int i = 0; 
-
-    while (str[i] != '\0') {
-        if (str[i] != ' ' and !in_word) { // Если текущий символ не пробел и мы не находимся внутри слова
-            in_word = true;
-            is_uppercase = std::isupper(str[i]); 
+unsigned int faStr2(const char* str)
+{
+    bool is_in_word = false;
+    bool is_good_word = true; // Флаг, указывающий на качество слова
+    int count = 0;
+    int i = 0;
+    while (str[i])
+    {
+        // Чтение слова на начале слова
+        if (str[i] != ' ' and !is_in_word)
+        {
+            is_in_word = true;
+            is_good_word = isupper(str[i]); // Проверяем качество слова
+            if (is_good_word)
+                count++;
         }
-        else if (str[i] == ' ' and in_word) { // Если текущий символ пробел и мы находимся внутри слова
-            in_word = false; 
-            is_uppercase = false; 
+        // Нашли не строчную букву в слове
+        else if ((!isalpha(str[i]) or isupper(str[i])) and str[i] != ' ' and is_in_word and is_good_word)
+        {
+            is_good_word = false;
+            count--;
         }
-        else if (!std::islower(str[i]) and in_word and is_uppercase) { // Если текущий символ не строчная буква и это начало слова с заглавной буквы
-            is_uppercase = false; 
-            word_count--; 
+        // Окончание слова
+        else if (str[i] == ' ' and is_in_word)
+        {
+            is_good_word = true; // Сбрасываем флаг для следующего слова
+            is_in_word = false;
         }
         i++;
     }
-
-    return word_count; 
+    return count;
 }
 
 
@@ -62,7 +71,7 @@ unsigned int faStr3(const char* str) {
     float letter_сount = 0; // Счетчик букв
     int word_сount = 0; // Счетчик слов
     bool in_word = false; // Флаг, указывающий на наличие слова
-    
+
     while (*str != '\0') {
         if (*str == ' ') {
             if (in_word) {
