@@ -1,3 +1,4 @@
+#include "fun.h"
 #include <cctype>
 #include <cmath>
 
@@ -21,7 +22,6 @@ unsigned int faStr1(const char* str) {
         if (str[i] == ' ' && in_word) {
             in_word = false;
         }
-
         i++;
     }
     return count;
@@ -39,7 +39,8 @@ unsigned int faStr2(const char* str) {
             if (is_good_word)
                 count++;
         }
-        else if ((!isalpha(str[i]) || isupper(str[i])) && str[i] != ' ' && in_word && is_good_word) {
+        else if ((!isalpha(str[i]) || isupper(str[i]))
+            && str[i] != ' ' && in_word && is_good_word) {
             is_good_word = false;
             count--;
         }
