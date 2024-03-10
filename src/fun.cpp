@@ -3,6 +3,7 @@
 #include <cctype>
 #include <cmath>
 
+
 // Реализация функции для задачи №1
 unsigned int faStr1(const char* str) {
     unsigned int count = 0;
