@@ -39,12 +39,10 @@ unsigned int faStr2(const char* str) {
             is_good_word = isupper(str[i]);
             if (is_good_word)
                 count++;
-        
         } else if ((!isalpha(str[i]) || isupper(str[i]))
             && str[i] != ' ' && in_word && is_good_word) {
             is_good_word = false;
             count--;
-        
         } else if (str[i] == ' ' && in_word) {
             is_good_word = true;
             in_word = false;
@@ -63,7 +61,6 @@ unsigned int faStr3(const char* str) {
                 word_count++;
             }
             in_word = false;
-        
         } else {
             in_word = true;
             letter_count++;
