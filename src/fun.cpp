@@ -1,104 +1,85 @@
-// Copyright 2022 UNN-IASR
-#include "fun.h"
 #include <cctype>
 #include <cmath>
 
-
-// Реализация функции для задачи №1
 unsigned int faStr1(const char* str) {
     bool in_word = false;
-    bool has_digit = false; // Флаг, указывающий на наличие цифр в слове
+    bool has_digit = false;
     unsigned int count = 0;
     unsigned int i = 0;
-
     while (str[i]) {
         if (str[i] != ' ' && !in_word) {
+            has_digit = false;
             in_word = true;
-            has_digit = false; // Сбрасываем флаг наличия цифры при начале нового слова
-            count++; // Увеличиваем счетчик слов
+            count++;
         }
-        else if (str[i] != ' ' && in_word) {
+        if (str[i] != ' ' && in_word) {
             if (isdigit(str[i]) && !has_digit) {
-                has_digit = true; // Устанавливаем флаг наличия цифры
-                count--; 
+                has_digit = true;
+                count--;
             }
         }
-        else if (str[i] == ' ' && in_word) {
-            in_word = false; // Завершаем слово
+        if (str[i] == ' ' && in_word) {
+            in_word = false;
         }
-        i++; 
-    }
 
+        i++;
+    }
     return count;
 }
 
-// Реализация функции для задачи №2
-unsigned int faStr2(const char* str)
-{
-    bool is_in_word = false;
-    bool is_good_word = true; // Флаг, указывающий на качество слова
+unsigned int faStr2(const char* str) {
+    bool in_word = false;
+    bool is_good_word = true;
     int count = 0;
     int i = 0;
-    while (str[i])
-    {
-        // Чтение слова на начале слова
-        if (str[i] != ' ' and !is_in_word)
-        {
-            is_in_word = true;
-            is_good_word = isupper(str[i]); // Проверяем качество слова
+    while (str[i]) {
+        if (str[i] != ' ' && !in_word) {
+            in_word = true;
+            is_good_word = isupper(str[i]);
             if (is_good_word)
                 count++;
         }
-        // Нашли не строчную букву в слове
-        else if ((!isalpha(str[i]) or isupper(str[i])) and str[i] != ' ' and is_in_word and is_good_word)
-        {
+        else if ((!isalpha(str[i]) || isupper(str[i])) && str[i] != ' ' && in_word && is_good_word) {
             is_good_word = false;
             count--;
         }
-        // Окончание слова
-        else if (str[i] == ' ' and is_in_word)
-        {
-            is_good_word = true; // Сбрасываем флаг для следующего слова
-            is_in_word = false;
+        else if (str[i] == ' ' && in_word) {
+            is_good_word = true;
+            in_word = false;
         }
         i++;
     }
     return count;
 }
 
-
-// Реализация функции для задачи №3
 unsigned int faStr3(const char* str) {
-    float letter_сount = 0; // Счетчик букв
-    int word_сount = 0; // Счетчик слов
-    bool in_word = false; // Флаг, указывающий на наличие слова
+    float letter_count = 0;
+    int word_count = 0;
+    bool in_word = false;
 
     while (*str != '\0') {
         if (*str == ' ') {
             if (in_word) {
-                word_сount++;
+                word_count++;
             }
             in_word = false;
         }
         else {
             in_word = true;
-            letter_сount++;
+            letter_count++;
         }
         str++;
     }
 
-    // Учитываем последнее слово, если строка не закончена
     if (in_word) {
-        word_сount++;
+        word_count++;
     }
 
-    // Если нет слов, средняя длина слова равна 0
-    if (word_сount == 0) {
+    if (word_count == 0) {
         return 0;
     }
 
-    // Вычисляем среднюю длину слова, округляя до ближайшего целого
-    unsigned int averageLength = round(letter_сount / word_сount);
+    unsigned int averageLength = round(letter_count / word_count);
 
     return averageLength;
 }
