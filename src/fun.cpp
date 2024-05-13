@@ -29,28 +29,27 @@ unsigned int faStr1(const char* str) {
     return count;
 }
 unsigned int faStr2(const char* str) {
-    bool inWord = false;
-    bool hasDigit = false;
-    unsigned int wordCount = 0;
-    unsigned int i = 0;
+    bool in_word = false;
+    bool is_good_word = true;
+    int count = 0;
+    int i = 0;
     while (str[i]) {
-        if (str[i]!= ' ' &&!inWord) {
-            hasDigit = false;
-            inWord = true;
-            wordCount++;
-        }
-        if (str[i]!= ' ' && inWord) {
-            if (isdigit(str[i]) &&!hasDigit) {
-                hasDigit = true;
-                wordCount--;
-            }
-        }
-        if (str[i] == ' ' && inWord) {
-            inWord = false;
+        if (str[i] != ' ' && !in_word) {
+            in_word = true;
+            is_good_word = isupper(str[i]);
+            if (is_good_word)
+                count++;
+        } else if ((!isalpha(str[i]) || isupper(str[i]))
+            && str[i] != ' ' && in_word && is_good_word) {
+            is_good_word = false;
+            count--;
+        } else if (str[i] == ' ' && in_word) {
+            is_good_word = true;
+            in_word = false;
         }
         i++;
     }
-    return wordCount;
+    return count;
 }
 unsigned int faStr3(const char* str) {
     float letter_count = 0;
